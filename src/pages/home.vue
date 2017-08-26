@@ -7,8 +7,8 @@
 				<span class="clock text_center">时钟
 					<time-clock></time-clock>
 				</span>
-				<span class="time text_center">{{time}}</span>
-				<span class="apm text_center">AM</span>
+				<span class="time text_center">{{nowTime}}</span>
+				<span class="apm text_center">{{isAm}}</span>
 				<div class="temp text_center">
 					<div class="weatherIcon">
 						<img src="../images/100.png">
@@ -45,20 +45,14 @@
 			return{
 				vistorArr: [{'id': '123', 'name': '小兴平2', 'address': '13幢2单元3301', 'startTime': '17:00', 'expectTime': '18:25', 'leaveTime': '19:00', 'photoUrl': '../../images/photo.png', 'type': '家教'},{'id': '124', 'name': '郝萌3', 'address': '13幢2单元3301', 'startTime': '17:00', 'expectTime': '18:25', 'leaveTime': '19:00', 'photoUrl': '../../images/photo.png','type': '家教'},{'id': '125', 'name': '郝萌4', 'address': '13幢2单元3301', 'startTime': '17:00', 'expectTime': '18:25', 'leaveTime': '19:00', 'photoUrl': '../../images/photo.png', 'type': '家教'},{'id': '121', 'name': '郝萌1', 'address': '13幢2单元3301', 'startTime': '17:00', 'expectTime': '18:25', 'leaveTime': '19:00', 'photoUrl': '../../images/photo.png' ,'type': '家教'}, {'id': '121', 'name': '郝萌1', 'address': '13幢2单元3301', 'startTime': '17:00', 'expectTime': '18:25', 'leaveTime': '19:00', 'photoUrl': '../../images/photo.png' ,'type': '家教'}, {'id': '121', 'name': '郝萌1', 'address': '13幢2单元3301', 'startTime': '17:00', 'expectTime': '18:25', 'leaveTime': '19:00', 'photoUrl': '../../images/photo.png' ,'type': '家教'}, {'id': '121', 'name': '郝萌1', 'address': '13幢2单元3301', 'startTime': '17:00', 'expectTime': '18:25', 'leaveTime': '19:00', 'photoUrl': '../../images/photo.png' ,'type': '家教'}, {'id': '121', 'name': '郝萌1', 'address': '13幢2单元3301', 'startTime': '17:00', 'expectTime': '18:25', 'leaveTime': '19:00', 'photoUrl': '../../images/photo.png' ,'type': '家教'}],
 				isOnline: true,
-				isOpen: false,
 				longLati: '116.307852,40.057031',
-				time: null,
+				isAm: null,
 			}
 		},
 		created(){
 		},
 		mounted(){
-
 			this.initData();
-			setInterval(this.caculateTime, 5000);
-			window.addEventListener("offline", (e)=>{this.isOnline = false});
-			window.addEventListener("online", (e)=>{this.isOnline = true});
-			this.time = this.nowTime;
 			// this.getWebPosition();
 			//和风天气api https://free-api.heweather.com/v5/weather?city=深圳&key=3e6338eef8c947dd89f4ffebbf580778
 			//测试百度api
@@ -81,7 +75,7 @@
 		},
 		computed:{
 			...mapState([
-				'nowTime'
+				'nowTime', 'city', 'temp', 'community', 'weather', 'isOpen', 'worker'
 			])
 		},
 		methods:{
@@ -89,21 +83,21 @@
 		      'GET_TIME',
 		    ]),
 			async initData(){
+				this.GET_TIME();
+				console.log(this.nowTime.substr(0,2));
+				if(parseInt(this.nowTime.substr(0,2)) < 12){
+					this.isAm = 'AM';
+				}else{
+					this.isAm = 'PM';
+				}
+				setInterval(this.GET_TIME, 5000);
+				window.addEventListener("offline", (e)=>{this.isOnline = false});
+				window.addEventListener("online", (e)=>{this.isOnline = true});
 				// let res = await getVistorList();//待写
 				// this.vistorArr = res;		
 				// console.log(JSON.stringify(this.vistorArr));
 			},
 			//每分钟更新时间
-			caculateTime(){
-				// console.log("hehe");
-				this.GET_TIME();
-				this.time = this.nowTime;
-				console.log(this.time);
-			},
-			hehe(){
-				console.log(navigator.onLine);
-
-			},
 		},
 		components:{
 			footerGuide,

@@ -1,6 +1,15 @@
 import{
 	GET_TIME,
+	UP_CITY,
+	UP_TEMP,
+	UP_WEATHER,
+	UP_WORKER,
+	UP_COMMUNITY,
+	UP_DOOR,
 } from './mutation-types.js'
+
+
+
 
 import {setStore, getStore} from '../config/mUtils'
 
@@ -24,12 +33,30 @@ export default{
 		var t = new Date();
 		var h = t.getHours();
 		var m = t.getMinutes();
+		if(h<10){
+			h = '0'+h;
+		}
+		if(m<10){
+			m = '0'+m;
+		}
 		state.nowTime ='' + h + ':' + m ;
 	},
+	[UP_TEMP](state,temp){
 
+	},
+	[UP_CITY](state,city){
 
+	},
+	[UP_WEATHER](state,weather){
 
+	},
+	[UP_WORKER](state,worker){
 
+	},
+	[UP_COMMUNITY](state,community){
 
+	},
+	[UP_DOOR](state,door){
 
+	}
 }

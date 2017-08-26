@@ -25,7 +25,7 @@
 <script>
 import alertTip from '../components/common/alertTip'
 import {sendLogin, getLocationWeather} from '../service/getData'
-import {mapMutations} from 'vuex'
+import {mapState, mapMutations} from 'vuex'
 
 export default {
   data () {
@@ -41,8 +41,9 @@ export default {
     correctAccount: function(){
       return /\d{10}$/gi.test(this.userAccount);
     },
-    computed:{
-    },
+    ...mapState([
+      'city', 'temp', 'community', 'weather', 'isOpen', 'worker'
+    ]),
   },
   components: {
     alertTip
@@ -50,30 +51,24 @@ export default {
   mounted(){
     // console.log(this.$router);
     this.getToday();
-    
   },
   methods: {
-    //发送登陆信息
     ...mapMutations([
-      'GET_TIME',
+      'UP_TEMP', 'UP_WEATHER', 'UP_CITY', 'UP_WORKER', 'UP_COMMUNITY',
     ]),
     login(){
-      // console.log("按按钮");
-      this.GET_TIME();
       this.logining = true;
       //如果返回的值不正确，则弹出提示，返回的值正确则进入主界面
       if (this.userInfo) {
           this.tips = "账号密码不匹配";
       }else{
           this.$router.push({path: '/home'});
-          // this.$router.push({path: '/record/recordSure'});
       }
       
     },
     getToday(){
       var todayData = getLocationWeather();
-      // await console.log("今天是：" + todayData);
-
+      console.log(todayData);
     },
     tipsInit(){
       this.tips = null;

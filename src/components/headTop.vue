@@ -11,7 +11,7 @@
 			</router-link>
 		</div>
 		<div class="time">
-			<span>{{'11:34'}}</span>
+			<span>{{nowTime}}</span>
 		</div>
 		<div class="workerInfo">
 			<mt-switch class="mt-switch"></mt-switch>
@@ -21,6 +21,8 @@
 </template>
 
 <script>
+	import {mapState} from 'vuex'
+
 	export default{
 		data(){
 			return{
@@ -28,7 +30,9 @@
 			}
 		},
 		computed:{
-
+			...mapState([
+				'nowTime'
+			])
 		},
 		methods:{
 			
